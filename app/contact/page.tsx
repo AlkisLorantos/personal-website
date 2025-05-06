@@ -9,7 +9,6 @@ export default function Page() {
             <p className="text-gray-500 dark:text-gray-400">Fill out the form below to send us a message.</p>
           </div>
           <ContactForm />
-          <div>Added key</div>
         </div>
       </div>
     )
