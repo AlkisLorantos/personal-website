@@ -23,8 +23,8 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Alkis — Builder, Writer, Analyst",
-  description: "Mathematics & CS student, full-stack developer, political writer, water polo player.",
+  title: "Alkis Lorantos",
+  description: "Writing, reading and projects by Alkis Lorantos.",
 };
 
 export default function RootLayout({

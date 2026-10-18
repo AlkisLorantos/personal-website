@@ -1,20 +1,18 @@
 import Link from "next/link";
+import PlainPage from "@/components/PlainPage";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-8">
-      <h1 className="font-[family-name:var(--font-serif)] text-8xl md:text-9xl tracking-tight">
-        404
-      </h1>
-      <p className="mt-4 text-lg text-[#6B6B6B]">
-        This page doesn't exist.
+    <PlainPage title="Not found">
+      <p className="text-lg leading-relaxed text-[#333]">
+        This page doesn't exist, or it has moved.
       </p>
       <Link
         href="/"
-        className="mt-8 text-sm tracking-wide uppercase text-[#6B6B6B] hover:text-[#B8860B] transition-colors duration-200"
+        className="text-lg underline decoration-[#bbb] underline-offset-4 hover:decoration-[#1a1a1a] w-fit"
       >
-        ← Back home
+        Back to the home page
       </Link>
-    </main>
+    </PlainPage>
   );
 }

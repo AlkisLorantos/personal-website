@@ -1,111 +1,76 @@
 import Link from "next/link";
-import { Instrument_Serif } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { devProjects, type Project } from "@/lib/site";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
+const sans = Inter_Tight({ subsets: ["latin"], weight: ["400", "500", "600"] });
+const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"] });
 
-const projects = [
-  {
-    title: "Water Polo Stats",
-    description:
-      "Full-stack statistics application for water polo. Built with Next.js, Express, Prisma, and Supabase. Features shot tracking, game management, and player analytics.",
-    tags: ["Next.js", "TypeScript", "Express", "Supabase"],
-    status: "In Progress",
-  },
-  {
-    title: "Political Analysis Blog",
-    description:
-      "A public writing platform focused on power, politics, and human nature. Built with Next.js and Sanity CMS, with self-hosted analytics.",
-    tags: ["Next.js", "Sanity", "Vercel"],
-    status: "Live",
-  },
-  {
-    title: "Rust Explorations",
-    description:
-      "A collection of progressively complex Rust projects — from ciphers and word counters to social simulations and ideology drift modeling.",
-    tags: ["Rust", "Systems", "Simulation"],
-    status: "Ongoing",
-  },
-  {
-    title: "OSINT Network Explorer",
-    description:
-      "Corporate ownership network analysis tool using ICIJ Offshore Leaks data. Link analysis, fraud detection, and PEP cross-referencing.",
-    tags: ["Python", "Graph Analysis", "OSINT"],
-    status: "Planned",
-  },
-  {
-    title: "Analytics Service",
-    description:
-      "Python FastAPI service for advanced water polo analytics — possession tracking, expected goals modeling, heatmaps, and a future computer vision pipeline.",
-    tags: ["FastAPI", "Python", "SQLAlchemy"],
-    status: "Planned",
-  },
-  {
-    title: "More Coming Soon",
-    description:
-      "Always building. Check back for new projects or reach out if you want to collaborate.",
-    tags: [],
-    status: "",
-  },
-];
+const c = {
+  bg: "#0b0f19",
+  text: "#f2ede3",
+  body: "#c0c4ce",
+  muted: "#858c9c",
+  line: "#1f2536",
+  accent: "#e3b261",
+};
 
-export default function ProjectsPage() {
+const statusDot: Record<Project["status"], string> = {
+  live: "#8fc9a3",
+  "in progress": c.accent,
+  paused: "#858c9c",
+  idea: "#7f9cc9",
+};
+
+export default function Projects() {
   return (
-    <main className="min-h-screen flex flex-col">
-      <Navbar />
+    <main className={`${sans.className} min-h-screen flex justify-center px-6 py-16 md:py-20`} style={{ background: c.bg, color: c.text }}>
+      <div className="w-full max-w-[760px] flex flex-col gap-11">
+        <div className="flex justify-between items-baseline gap-6">
+          <h1 className="text-3xl md:text-[34px] font-semibold tracking-tight">Projects</h1>
+          <Link href="/" className={`${mono.className} text-[13px] hover:opacity-80`} style={{ color: c.muted }}>
+            Alkis Lorantos
+          </Link>
+        </div>
 
-      <section className="flex-1 px-8 md:px-20 lg:px-32 pt-20 md:pt-28 pb-24">
-        <h1
-          className={`${instrumentSerif.className} text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-tight`}
-        >
-          Projects
-        </h1>
-        <p className="mt-6 text-lg text-[#6B6B6B] max-w-xl">
-          My coding projects.
-        </p>
-
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project) => (
-            <div
-              key={project.title}
-              className="group border border-[#D4CFC7] rounded-sm p-6 hover:border-[#B8860B] transition-colors duration-200"
+        <div className="flex flex-col" style={{ borderBottom: `1px solid ${c.line}` }}>
+          {devProjects.map((p) => (
+            <article
+              key={p.name}
+              className="grid md:grid-cols-[150px_1fr] gap-x-10 gap-y-3 py-7"
+              style={{ borderTop: `1px solid ${c.line}` }}
             >
-              <div className="flex justify-between items-start">
-                <h2 className={`${instrumentSerif.className} text-2xl`}>
-                  {project.title}
-                </h2>
-                {project.status && (
-                  <span className="text-xs tracking-wide uppercase text-[#6B6B6B] border border-[#D4CFC7] px-2 py-1 rounded-sm shrink-0 ml-4">
-                    {project.status}
-                  </span>
-                )}
+              <div className={`${mono.className} flex md:flex-col gap-3 md:gap-1.5 text-[13px]`} style={{ color: c.muted }}>
+                <span>{p.date}</span>
+                <span style={{ color: c.accent }}>{p.version}</span>
               </div>
-              <p className="mt-3 text-[#6B6B6B] leading-relaxed">
-                {project.description}
-              </p>
-              {project.tags.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs text-[#6B6B6B] bg-[#EBE7E0] px-2 py-1 rounded-sm"
-                    >
-                      {tag}
+
+              <div className="flex flex-col gap-2.5">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <h2 className="text-[22px] font-semibold">{p.name}</h2>
+                  <div className={`${mono.className} flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-wider`} style={{ color: c.muted }}>
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: statusDot[p.status] }} />
+                      {p.status}
                     </span>
-                  ))}
+                    {p.tags?.map((t) => <span key={t}>· {t}</span>)}
+                  </div>
                 </div>
-              )}
-            </div>
+
+                <p className="text-[17px] leading-relaxed" style={{ color: c.body }}>
+                  {p.description}
+                  {p.latest && <> Latest: {p.latest}</>}
+                </p>
+
+                <p className={`${mono.className} text-[13px]`} style={{ color: c.muted }}>
+                  {p.stack.join(" / ")}
+                  {p.repo && <> · <a href={p.repo} className="hover:underline underline-offset-4" style={{ color: c.text }}>source</a></>}
+                  {p.url && <> · <a href={p.url} className="hover:underline underline-offset-4" style={{ color: c.text }}>live</a></>}
+                </p>
+              </div>
+            </article>
           ))}
         </div>
-      </section>
-
-      <Footer />
+      </div>
     </main>
   );
 }

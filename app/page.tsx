@@ -1,23 +1,17 @@
 import Link from "next/link";
+import ItemList from "@/components/ItemList";
 import { intro, writing, reading, projects, links, type Item } from "@/lib/site";
 
-function Section({ title, items }: { title: string; items: Item[] }) {
-  if (items.length === 0) return null;
+function Section({ title, href, items }: { title: string; href: string; items: Item[] }) {
   return (
     <section className="flex flex-col gap-2">
-      <h2 className="text-sm font-semibold tracking-wider uppercase text-[#888]">{title}</h2>
-      {items.map((it) => (
-        <div key={it.title} className="flex justify-between gap-6 text-lg">
-          {it.href ? (
-            <Link href={it.href} className="underline decoration-[#bbb] underline-offset-4 hover:decoration-[#1a1a1a]">
-              {it.title}
-            </Link>
-          ) : (
-            <span>{it.title}</span>
-          )}
-          <span className="text-[#999] shrink-0">{it.meta}</span>
-        </div>
-      ))}
+      <Link
+        href={href}
+        className="text-sm font-semibold tracking-wider uppercase text-[#888] hover:text-[#1a1a1a] w-fit"
+      >
+        {title} →
+      </Link>
+      {items.length > 0 && <ItemList items={items.slice(0, 3)} />}
     </section>
   );
 }
@@ -31,11 +25,14 @@ export default function Home() {
           <p className="text-lg leading-relaxed text-[#333]">{intro}</p>
         </div>
 
-        <Section title="Writing" items={writing} />
-        <Section title="Reading" items={reading} />
-        <Section title="Projects" items={projects} />
+        <Section title="Writing" href="/writing" items={writing} />
+        <Section title="Reading" href="/reading" items={reading} />
+        <Section title="Projects" href="/projects" items={projects} />
 
         <footer className="mt-8 flex gap-5 text-base">
+          <Link href="/contact" className="text-[#888] hover:text-[#1a1a1a]">
+            Contact
+          </Link>
           {links.map((l) => (
             <a key={l.label} href={l.href} className="text-[#888] hover:text-[#1a1a1a]">
               {l.label}
